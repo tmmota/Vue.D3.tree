@@ -52,6 +52,10 @@ const props = {
     type: String,
     default: 'name'
   },
+  nodeFont: {
+    type: String,
+    default: '10px sans-serif'
+  },
   nodeColor: {
     type: String,
     default: 'nodeColor'
@@ -224,6 +228,7 @@ export default {
           this.redraw()
           this.$emit('clicked', {element: d, data: d.data})
         })
+        .style('font', this.nodeFont)
 
       updateLinks.attr('d', d => drawLink(originBuilder(d), originBuilder(d), this.layout))
 
@@ -529,7 +534,6 @@ export default {
 }
 
 .treeclass .nodetree text {
-  font: 10px sans-serif;
   cursor: pointer;
 }
 

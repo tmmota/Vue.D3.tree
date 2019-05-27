@@ -54,6 +54,7 @@ export default {
 | marginX    | no | `Number`          | 20       | margin for X axis in pixel |
 | marginY    | no | `Number`           | 20            | margin for Y axis in pixel |
 | nodeText   | no | `String`  | 'name' |  name of the property of the node to be used as a display name |
+| nodeFont   | no | `String`  | '10px sans-serif' | font style for the text |
 | nodeColor  | no | `String`  | '#555' |  color of the node with children to be used to display |
 | leafColor  | no | `String`  | '#999' |  color of the leaf nodes to be used to display |
 | type      | no    | 'tree' or 'cluster'       | 'tree'      | kind of layout: [tree](https://github.com/d3/d3-hierarchy/blob/master/README.md#tree) or [cluster](https://github.com/d3/d3-hierarchy/blob/master/README.md#cluster) |
@@ -99,7 +100,7 @@ Sent when the tree is zoomed. Argument: `{transform}` where transform is [d3.zoo
 This component is responsive and will adjust to resizing.
 In order for this to work properly, you must define for this component or its parent weither:
   * a height or a max-height
-  * or a width or a max-width.
+  * or a width or a max-width
   
 Failing to do so may result in a component whose size that will keep increasing.
 
@@ -158,6 +159,7 @@ export default {
 | links      | no    | `Array`                     | null        | Data representing links between the nodes, having `source` and `target` properties referencing node identifiers
 | identifier   | yes | `String` or `Function` | -|  name of the property of the node to be used as a identifier or function taking a node and returning its identifier|
 | nodeText   | yes | `String`  | -|  name of the property of the node to be used as a display name |
+| nodeFont   | no | `String`  | '10px sans-serif' | font style for the text |
 | nodeColor  | no | `String`  | '#555' |  color of the node with children to be used to display |
 | leafColor  | no | `String`  | '#999' |  color of the leaf nodes to be used to display |
 | duration   | no | `Number`  | 750 |  Animation duration in milliseconds |
