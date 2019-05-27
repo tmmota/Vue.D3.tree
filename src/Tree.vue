@@ -52,6 +52,14 @@ const props = {
     type: String,
     default: 'name'
   },
+  nodeColor: {
+    type: String,
+    default: 'nodeColor'
+  },
+  leafColor: {
+    type: String,
+    default: 'leafColor'
+  },
   identifier: {
     type: Function,
     default: () => i++
@@ -225,6 +233,8 @@ export default {
 
       newNodes.attr('transform', d => translate(originBuilder(d), this.layout))
         .append('circle')
+        .attr('stroke', d => hasChildren(d) ? d.data[this.nodeColor] : d.data[this.leafColor])
+        .style('fill', d => hasChildren(d) ? d.data[this.nodeColor] : d.data[this.leafColor])
         .attr('r', this.radius)
 
       allNodes.classed('node--internal', d => hasChildren(d))
@@ -540,6 +550,6 @@ export default {
 
 .treeclass {
   max-height: 100%;
-  width: 100%; 
+  width: 100%;
 }
 </style>

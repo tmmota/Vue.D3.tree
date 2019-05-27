@@ -24,19 +24,19 @@
                   <select id="layout-type" class="form-control" v-model="layoutType">
                     <option>euclidean</option>
                     <option>circular</option>
-                  </select>       
+                  </select>
               </div>
-            </div> 
+            </div>
 
             <div class="form-group">
               <label for="margin-x" class="control-label col-sm-3">marginx</label>
               <div class="col-sm-7">
                 <input id="margin-x" class="form-control" type="range" min="0" max="200" v-model.number="Marginx">
-              </div> 
+              </div>
                 <div class="col-sm-2">
-                  <p>{{Marginx}}px</p>       
-              </div> 
-            </div>        
+                  <p>{{Marginx}}px</p>
+              </div>
+            </div>
 
             <div class="form-group">
               <label for="margin-y" class="control-label col-sm-3">marginy</label>
@@ -44,9 +44,9 @@
                 <input id="margin-y" class="form-control" type="range" min="0" max="200" v-model.number="Marginy">
               </div>
               <div class="col-sm-2">
-                <p>{{Marginy}}px</p>       
-              </div> 
-            </div>   
+                <p>{{Marginy}}px</p>
+              </div>
+            </div>
 
              <div class="form-group">
               <label for="margin-y" class="control-label col-sm-3">radius</label>
@@ -54,9 +54,9 @@
                 <input id="margin-y" class="form-control" type="range" min="1" max="10" v-model.number="radius">
               </div>
               <div class="col-sm-2">
-                <p>{{radius}}px</p>       
-              </div> 
-            </div>        
+                <p>{{radius}}px</p>
+              </div>
+            </div>
 
             <div class="form-group">
               <label for="velocity" class="control-label col-sm-3">Duration</label>
@@ -64,41 +64,41 @@
                 <input id="velocity" class="form-control" type="range" min="0" max="3000" v-model.number="duration">
               </div>
               <div class="col-sm-2">
-                <p>{{duration}}ms</p>       
+                <p>{{duration}}ms</p>
               </div>
             </div>
 
             <div class="form-group">
               <label for="zoomable" class="">Zoomable</label>
               <input id="zoomable" class="form-check-input" type="checkbox" v-model="zoomable">
-            </div> 
+            </div>
 
             <div class="form-group feedback">
               <i v-show="isLoading" class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
               <span v-if="currentNode">Current Node: {{currentNode.data.text}}</span>
-              <span v-else>No Node selected.</span>            
-            </div>  
+              <span v-else>No Node selected.</span>
+            </div>
 
             <button type="button" :disabled="!currentNode" class="btn btn-primary" @click="expandAll" data-toggle="tooltip" data-placement="top" title="Expand All from current">
-            <i class="fa fa-expand" aria-hidden="true"></i>          
+            <i class="fa fa-expand" aria-hidden="true"></i>
             </button>
 
             <button type="button" :disabled="!currentNode" class="btn btn-secondary" @click="collapseAll" data-toggle="tooltip" data-placement="top" title="Collapse All from current">
-            <i class="fa fa-compress" aria-hidden="true"></i>            
+            <i class="fa fa-compress" aria-hidden="true"></i>
             </button>
 
             <button type="button" :disabled="!currentNode" class="btn btn-success" @click="showOnly" data-toggle="tooltip" data-placement="top" title="Show Only from current">
-            <i class="fa fa-search-plus" aria-hidden="true"></i>       
+            <i class="fa fa-search-plus" aria-hidden="true"></i>
             </button>
 
             <button type="button" :disabled="!currentNode" class="btn btn-warning" @click="show" data-toggle="tooltip" data-placement="top" title="Show current">
-            <i class="fa fa-binoculars" aria-hidden="true"></i>           
+            <i class="fa fa-binoculars" aria-hidden="true"></i>
             </button>
 
             <button v-if="zoomable" type="button" class="btn btn-warning" @click="resetZoom" data-toggle="tooltip" data-placement="top" title="Reset Zoom">
-            <i class="fa fa-arrows-alt" aria-hidden="true"></i>                             
+            <i class="fa fa-arrows-alt" aria-hidden="true"></i>
             </button>
-            
+
             <button type="button" class="btn btn-danger" @click="gremlins" data-toggle="tooltip" data-placement="top" :title="isUnderGremlinsAttack ? 'stop attack' :'unleash gremlins'">
             <i class="fa" :disabled="isUnderGremlinsAttack" :class="isUnderGremlinsAttack ? 'fa-exclamation-triangle':'fa-optin-monster'" aria-hidden="true"></i>
             </button>
@@ -121,9 +121,9 @@
   </div>
 
   <div class="col-md-9 panel panel-default">
-    <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/>
+    <tree ref="tree" :identifier="getId" :zoomable="zoomable" :data="Graph.tree" :node-text="nodeText" node-color="nodeColor" leaf-color="leafColor"  :margin-x="Marginx" :margin-y="Marginy" :radius="radius" :type="type" :layout-type="layoutType" :duration="duration" class="tree" @clicked="onClick" @expand="onExpand" @retract="onRetract"/>
   </div>
-  
+
   </div>
 </template>
 

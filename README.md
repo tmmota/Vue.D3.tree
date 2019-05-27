@@ -13,10 +13,6 @@ Update documentationVue components to display graphics based on [D3.js](https://
 
 ![demo](./documentation/treedemo.gif)
 
-## Live demo
-
-https://david-desmaisons.github.io/Vue.D3.tree/tree
-
 ## Usage
 
 ```html
@@ -58,6 +54,8 @@ export default {
 | marginX    | no | `Number`          | 20       | margin for X axis in pixel |
 | marginY    | no | `Number`           | 20            | margin for Y axis in pixel |
 | nodeText   | no | `String`  | 'name' |  name of the property of the node to be used as a display name |
+| nodeColor  | no | `String`  | '#555' |  color of the node with children to be used to display |
+| leafColor  | no | `String`  | '#999' |  color of the leaf nodes to be used to display |
 | type      | no    | 'tree' or 'cluster'       | 'tree'      | kind of layout: [tree](https://github.com/d3/d3-hierarchy/blob/master/README.md#tree) or [cluster](https://github.com/d3/d3-hierarchy/blob/master/README.md#cluster) |
 | radius    | no | `Number`           | 3            | node circle radius in pixel |
 | zoomable   | no | `Boolean`  | false |  If true tree can be zoomed in using mouse wheel and drag-and-drop |
@@ -160,6 +158,8 @@ export default {
 | links      | no    | `Array`                     | null        | Data representing links between the nodes, having `source` and `target` properties referencing node identifiers
 | identifier   | yes | `String` or `Function` | -|  name of the property of the node to be used as a identifier or function taking a node and returning its identifier|
 | nodeText   | yes | `String`  | -|  name of the property of the node to be used as a display name |
+| nodeColor  | no | `String`  | '#555' |  color of the node with children to be used to display |
+| leafColor  | no | `String`  | '#999' |  color of the leaf nodes to be used to display |
 | duration   | no | `Number`  | 750 |  Animation duration in milliseconds |
 | marginX    | no | `Number`          | 20       | margin for X axis in pixel |
 | marginY    | no | `Number`           | 20            | margin for Y axis in pixel |
