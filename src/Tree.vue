@@ -193,10 +193,6 @@ export default {
 
       const depths = [... new Set(descendants.map(d => d.depth))]
 
-      if (this.treeHeader.length !== depths.length) {
-        throw new Error('size of the tree header is ' + this.treeHeader.length + ' and expected is ' + depths.length)
-      }
-
       const header = []
 
       for (let i = 0; i<depths.length; i++) {
