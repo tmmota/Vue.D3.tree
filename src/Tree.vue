@@ -56,6 +56,10 @@ const props = {
     type: String,
     default: '10px sans-serif'
   },
+  treeHeader: {
+    type: Array,
+    default: []
+  },
   nodeColor: {
     type: String,
     default: 'nodeColor'
@@ -118,8 +122,9 @@ export default {
   mounted () {
     const size = this.getSize()
     const svg = d3.select(this.$el).append('svg')
-          .attr('width', size.width)
-          .attr('height', size.height)
+      .attr('width', size.width)
+      .attr('height', size.height)
+      .attr('class', 'overlay')
     let g = null
     let zoom = null
 
@@ -132,12 +137,15 @@ export default {
       g = this.transformSvg(svg.append('g'), size)
     }
 
+    const columns = g.append('g').attr('transform', 'translate(40,40)')
+
     const tree = this.tree
     this.internaldata = {
       svg,
       g,
       tree,
-      zoom
+      zoom,
+      columns
     }
 
     this.data && this.onData(this.data)
@@ -153,8 +161,8 @@ export default {
     resize () {
       const size = this.getSize()
       this.internaldata.svg
-              .attr('width', size.width)
-              .attr('height', size.height)
+        .attr('width', size.width)
+        .attr('height', size.height)
       this.layout.size(this.internaldata.tree, size, this.margin, this.maxTextLenght)
       this.applyZoom(size)
       this.redraw()
@@ -175,6 +183,36 @@ export default {
     updateTransform (g, size) {
       size = size || this.getSize()
       return this.layout.updateTransform(g, this.margin, size, this.maxTextLenght)
+    },
+
+    updateHeader () {
+      const descendants = this.internaldata.tree(this.internaldata.root).descendants()
+      const dys = [... new Set(descendants.map(d => d.y - 75))]
+
+      this.internaldata.columns.selectAll('*').remove()
+
+      const depths = [... new Set(descendants.map(d => d.depth))]
+
+      if (this.treeHeader.length !== depths.length) {
+        throw new Error('size of the tree header is ' + this.treeHeader.length + ' and expected is ' + depths.length)
+      }
+
+      const header = []
+
+      for (let i = 0; i<depths.length; i++) {
+        header.push({ name: this.treeHeader[i], y: dys[i] })
+      }
+
+      const column = this.internaldata.columns.selectAll('.column')
+        .data(header)
+        .enter()
+        .append('g')
+        .attr('transform', function(d) { return 'translate(' + d.y + ',0)' })
+
+      column.append('text')
+        .text(d => d.name)
+        .attr('x', 0)
+        .attr('y', -3)
     },
 
     updateGraph (source) {
@@ -205,12 +243,16 @@ export default {
 
       const root = this.internaldata.root
       const links = this.internaldata.g.selectAll('.linktree')
-         .data(this.internaldata.tree(root).descendants().slice(1), d => d.id)
+        .data(this.internaldata.tree(root).descendants().slice(1), d => d.id)
 
       const updateLinks = links.enter().append('path').attr('class', 'linktree')
       const nodes = this.internaldata.g.selectAll('.nodetree').data(root.descendants(), d => d.id)
       const newNodes = nodes.enter().append('g').attr('class', 'nodetree')
       const allNodes = newNodes.merge(nodes)
+
+      if (this.treeHeader.length > 0) {
+        this.updateHeader()
+      }
 
       nodes.each(function (d) {
         d._x0 = d.x
@@ -259,9 +301,9 @@ export default {
       })
 
       const textTransition = toPromise(text.transition().duration(this.duration)
-          .attr('x', d => d.textInfo.x)
-          .attr('dx', function (d) { return anchorTodx(d.textInfo.anchor, this) })
-          .attr('transform', d => `rotate(${d.textInfo.rotate})`))
+        .attr('x', d => d.textInfo.x)
+        .attr('dx', function (d) { return anchorTodx(d.textInfo.anchor, this) })
+        .attr('transform', d => `rotate(${d.textInfo.rotate})`))
 
       allNodes.each((d) => {
         d.x0 = d.x
@@ -270,8 +312,8 @@ export default {
 
       const exitingNodes = nodes.exit()
       const exitingNodesPromise = toPromise(exitingNodes.transition().duration(this.duration)
-                  .attr('transform', d => translate(forExit(d), this.layout))
-                  .attr('opacity', 0).remove())
+        .attr('transform', d => translate(forExit(d), this.layout))
+        .attr('opacity', 0).remove())
       exitingNodes.select('circle').attr('r', 1e-6)
 
       const leaves = root.leaves()
@@ -524,36 +566,40 @@ export default {
 </script>
 
 <style>
-.treeclass .nodetree  circle {
-  fill: #999;
-}
+  .overlay{
+    background-color:#EEE;
+  }
 
-.treeclass .node--internal circle {
-  cursor: pointer;
-  fill:  #555;
-}
+  .treeclass .nodetree  circle {
+    fill: #999;
+  }
 
-.treeclass .nodetree text {
-  cursor: pointer;
-}
+  .treeclass .node--internal circle {
+    cursor: pointer;
+    fill:  #555;
+  }
 
-.treeclass .nodetree.selected text {
-  font-weight: bold;
-}
+  .treeclass .nodetree text {
+    cursor: pointer;
+  }
 
-.treeclass .node--internal text {
-  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
-}
+  .treeclass .nodetree.selected text {
+    font-weight: bold;
+  }
 
-.treeclass .linktree {
-  fill: none;
-  stroke: #555;
-  stroke-opacity: 0.4;
-  stroke-width: 1.5px;
-}
+  .treeclass .node--internal text {
+    text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+  }
 
-.treeclass {
-  max-height: 100%;
-  width: 100%;
-}
+  .treeclass .linktree {
+    fill: none;
+    stroke: #555;
+    stroke-opacity: 0.4;
+    stroke-width: 1.5px;
+  }
+
+  .treeclass {
+    max-height: 100%;
+    width: 100%;
+  }
 </style>

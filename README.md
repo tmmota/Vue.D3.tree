@@ -55,6 +55,7 @@ export default {
 | marginY    | no | `Number`           | 20            | margin for Y axis in pixel |
 | nodeText   | no | `String`  | 'name' |  name of the property of the node to be used as a display name |
 | nodeFont   | no | `String`  | '10px sans-serif' | font style for the text |
+| treeHeader | no | `Array`  | [] | Tree header |
 | nodeColor  | no | `String`  | '#555' |  color of the node with children to be used to display |
 | leafColor  | no | `String`  | '#999' |  color of the leaf nodes to be used to display |
 | type      | no    | 'tree' or 'cluster'       | 'tree'      | kind of layout: [tree](https://github.com/d3/d3-hierarchy/blob/master/README.md#tree) or [cluster](https://github.com/d3/d3-hierarchy/blob/master/README.md#cluster) |
